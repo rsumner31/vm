@@ -117,6 +117,7 @@ else
     exit 0
 fi
 
+<<<<<<< HEAD
 # Make sure old instaces can upgrade as well
 if [ ! -f "$MYCNF" ] && [ -f /var/mysql_password.txt ]
 then
@@ -149,6 +150,19 @@ https://www.techandme.se/reset-mysql-5-7-root-password/"
     exit 1
 else
     rm -f /var/mysql_password.txt
+=======
+# Upgrade Nextcloud
+echo "Checking latest released version on the Nextcloud download server and if it's possible to download..."
+if ! wget -q --show-progress -T 10 -t 2 "$NCREPO/$STABLEVERSION.tar.bz2"
+then
+    echo
+    printf "${IRed}Nextcloud %s doesn't exist.${Color_Off}\n" "$NCVERSION"
+    echo "Please check available versions here: $NCREPO"
+    echo
+    exit 1
+else
+    rm -f "$STABLEVERSION.tar.bz2"
+>>>>>>> 59adc5c... install_if_not (#296)
 fi
 
 # Upgrade Nextcloud
