@@ -50,7 +50,6 @@ NEWMARIADBPASS=$(tr -dc "a-zA-Z0-9@#*=" < /dev/urandom | fold -w "$SHUF" | head 
 ETCMYCNF=/etc/mysql/my.cnf
 MYCNF=/root/.my.cnf
 [ ! -z "$MYCNFPW" ] && MARIADBMYCNFPASS=$(grep "password" $MYCNF | sed -n "/password/s/^password='\(.*\)'$/\1/p")
-<<<<<<< master
 [ ! -z "$NCDB" ] && NCCONFIGDB=$(grep "dbname" $NCPATH/config/config.php | awk '{print $3}' | sed "s/[',]//g")
 [ ! -z "$NCDBPASS" ] && NCCONFIGDBPASS=$(grep "dbpassword" $NCPATH/config/config.php | awk '{print $3}' | sed "s/[',]//g")
 >>>>>>> 44cdd3a
@@ -61,6 +60,7 @@ SSL_CONF="/etc/apache2/sites-available/nextcloud_ssl_domain_self_signed.conf"
 HTTP_CONF="/etc/apache2/sites-available/nextcloud_http_domain_self_signed.conf"
 HTTP2_CONF="/etc/apache2/mods-available/http2.conf"
 # Nextcloud version
+<<<<<<< master
 [ ! -z "$NC_UPDATE" ] && CURRENTVERSION=$(sudo -u www-data php $NCPATH/occ "status" | grep "versionstring" | awk '{print $3}')
 NCVERSION=$(curl -s -m 900 $NCREPO/ | sed --silent 's/.*href="nextcloud-\([^"]\+\).zip.asc".*/\1/p' | sort --version-sort | tail -1)
 STABLEVERSION="nextcloud-$NCVERSION"
@@ -169,6 +169,11 @@ ask_yes_or_no() {
             echo "no"
         ;;
     esac
+}
+
+# Example: occ_command 'maintenance:mode --on'
+occ_command() {
+check_command sudo -u www-data php "$NCPATH"/occ "$1"
 }
 
 msg_box() {
